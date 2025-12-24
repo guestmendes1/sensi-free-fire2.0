@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RED EVOLUTION - SENSI AI</title>
+    <title>RED EVOLUTION - VIP SYSTEM</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/1.0.35/ua-parser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
             --primary: #ff0000;
-            --dark: #050505;
-            --panel: #111;
-            --text: #fff;
+            --dark: #090909;
+            --panel: #121212;
+            --text: #ffffff;
             --glow: 0 0 15px rgba(255, 0, 0, 0.6);
+            --green: #00ff41;
         }
 
         * { box-sizing: border-box; }
@@ -23,344 +25,271 @@
             color: var(--text);
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
-            text-shadow: var(--glow);
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            text-align: center;
+        /* HEADER DE LOGIN */
+        header {
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
         }
 
-        .subtitle {
-            color: #888;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
+        .logo { font-family: 'Orbitron'; font-weight: 900; color: var(--primary); letter-spacing: 2px; }
+        
+        .user-area { display: flex; align-items: center; gap: 10px; }
+        .user-badge { 
+            background: #222; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; border: 1px solid #444; 
+            display: flex; align-items: center; gap: 5px;
         }
+        .vip-active { color: var(--green); border-color: var(--green); box-shadow: 0 0 10px rgba(0,255,0,0.2); }
 
+        /* CONTAINER PRINCIPAL */
         .container {
             width: 100%;
             max-width: 450px;
-        }
-
-        /* CARD DO DISPOSITIVO */
-        .device-box {
-            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-            border: 1px solid #333;
-            border-left: 5px solid var(--primary);
             padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            animation: slideIn 0.5s ease;
+            flex: 1;
         }
 
-        .label {
-            color: #666;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
+        h1 { text-align: center; font-family: 'Orbitron'; color: var(--primary); text-shadow: var(--glow); margin-top: 0; }
 
-        .device-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        .status {
-            color: #00ff00;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        /* BOTÃO */
-        .btn-main {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 18px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 1.1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: var(--glow);
-            transition: 0.3s;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-
-        .btn-main:hover {
-            background: #cc0000;
-            transform: scale(1.02);
-        }
-
-        /* LOADER */
-        .loader-container {
-            display: none;
-            margin-top: 20px;
-        }
-        
-        .loading-text {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #aaa;
-            font-style: italic;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #222;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            box-shadow: var(--glow);
-            transition: width 0.3s;
-        }
-
-        /* RESULTADOS */
-        .results-area {
-            display: none;
-            margin-top: 30px;
-            animation: fadeIn 1s;
-        }
-
-        .free-item {
-            background: #111;
+        /* BOX DO DISPOSITIVO */
+        .device-card {
+            background: linear-gradient(160deg, #1a1a1a, #0d0d0d);
+            border-left: 4px solid var(--primary);
             padding: 15px;
             border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #333;
             margin-bottom: 20px;
-        }
-
-        .dpi-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            color: var(--primary);
-            text-shadow: var(--glow);
-        }
-
-        /* ÁREA PAGA (BLUR) */
-        .premium-lock {
             position: relative;
-            background: #0f0f0f;
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid #222;
             overflow: hidden;
         }
-
-        .blur-content {
-            filter: blur(6px);
-            opacity: 0.5;
-            pointer-events: none;
-            user-select: none;
+        .device-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: scan 2s infinite;
         }
 
-        .config-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #222;
+        /* BOTÃO PRINCIPAL */
+        .btn-scan {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            border: none;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            box-shadow: var(--glow);
+            transition: 0.2s;
         }
+        .btn-scan:active { transform: scale(0.98); }
+
+        /* RESULTADOS */
+        .results-panel { display: none; margin-top: 30px; }
+
+        .dpi-box {
+            background: #111; border: 1px solid #333; padding: 15px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px;
+        }
+        .dpi-val { font-family: 'Orbitron'; font-size: 2rem; color: var(--primary); }
+
+        /* ÁREA VIP */
+        .vip-lock-area {
+            position: relative;
+            background: #0f0f0f; border-radius: 10px; padding: 20px; border: 1px solid #333;
+        }
+        .blur-data { filter: blur(8px); opacity: 0.4; pointer-events: none; user-select: none; transition: 0.5s; }
+        .vip-unlocked .blur-data { filter: none; opacity: 1; pointer-events: all; }
 
         .lock-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0,0,0,0.6);
-            z-index: 10;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.7); z-index: 10;
+            backdrop-filter: blur(2px);
         }
 
-        .btn-pix {
-            background: #00ff00;
-            color: black;
-            font-weight: bold;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0,255,0,0.4);
-            animation: pulse 1.5s infinite;
-            text-transform: uppercase;
-            font-size: 0.9rem;
+        .btn-buy {
+            background: var(--green); color: black; padding: 12px 30px; border-radius: 50px;
+            font-weight: bold; font-family: 'Orbitron'; border: none; cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,255,0,0.5); animation: pulse 1.5s infinite;
+            text-decoration: none; display: inline-block;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .config-item {
+            display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding: 12px 0;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
+        @keyframes scan { 0% {transform: translateX(-100%);} 100% {transform: translateX(100%);} }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>RED EVOLUTION</h1>
-        <div class="subtitle">IA SENSI GENERATOR V2.0</div>
+    <header>
+        <div class="logo">RED<span style="color:#fff">EVO</span></div>
+        <div class="user-area">
+            <div id="user-status" class="user-badge">
+                <i class="fas fa-user"></i> FREE
+            </div>
+        </div>
+    </header>
 
-        <div class="device-box">
-            <div class="label">Dispositivo Identificado</div>
-            <div class="device-name" id="model-display">SCANNING...</div>
-            <div class="status" id="status-display"> Aguardando análise...</div>
+    <div class="container">
+        <h1>SISTEMA V2.0</h1>
+
+        <div class="device-card">
+            <div style="font-size:0.8rem; color:#888;">DISPOSITIVO IDENTIFICADO</div>
+            <div id="device-name" style="font-size:1.4rem; font-weight:bold; color:white;">LENDO HARDWARE...</div>
+            <div id="device-id" style="font-size:0.7rem; color:#555; margin-top:5px;">ID: ...</div>
         </div>
 
-        <button class="btn-main" id="btn-start" onclick="runAnalysis()">
-            GERAR SENSIBILIDADE
+        <button class="btn-scan" id="btn-start" onclick="iniciarAnalise()">
+            CONECTAR IA E GERAR SENSI
         </button>
 
-        <div class="loader-container" id="loader">
-            <div class="loading-text" id="loading-msg">Conectando ao Neural Engine...</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="fill"></div>
-            </div>
+        <div id="loader" style="display:none; text-align:center; margin-top:20px; color:#888;">
+            <i class="fas fa-circle-notch fa-spin" style="font-size:2rem; color:var(--primary);"></i>
+            <p style="margin-top:10px;">Analisando DPI do display...</p>
         </div>
 
-        <div class="results-area" id="results">
-            <h3 style="color:white; margin-bottom:10px;">DPI OTIMIZADA (GRÁTIS)</h3>
-            <div class="free-item">
-                <span>DPI IDEAL:</span>
-                <span class="dpi-number" id="dpi-result">---</span>
+        <div class="results-panel" id="painel-resultados">
+            
+            <div class="dpi-box">
+                <span>DPI OTIMIZADA (GRÁTIS)</span>
+                <span class="dpi-val" id="dpi-value">---</span>
             </div>
 
-            <h3 style="color:var(--primary); margin-bottom:10px;">CONFIGURAÇÃO PRO (VIP)</h3>
-            <div class="premium-lock">
-                
-                <div class="blur-content">
-                    <div class="config-row"><strong>GERAL:</strong> <span>98%</span></div>
-                    <div class="config-row"><strong>RED DOT:</strong> <span>100%</span></div>
-                    <div class="config-row"><strong>MIRA 2X:</strong> <span>96%</span></div>
-                    <div class="config-row"><strong>MIRA 4X:</strong> <span>92%</span></div>
-                    <div class="config-row"><strong>BOTÃO DE TIRO:</strong> <span>56%</span></div>
-                    <div class="config-row"><strong>VELOCIDADE PONTEIRO:</strong> <span>MAX</span></div>
+            <div class="vip-lock-area" id="vip-area">
+                <div class="blur-data">
+                    <h3 style="color:var(--primary); margin:0 0 15px 0;">SENSI VIP COMPLETA</h3>
+                    <div class="config-item"><strong>GERAL:</strong> <span id="sensi-geral">--</span></div>
+                    <div class="config-item"><strong>RED DOT:</strong> <span id="sensi-red">--</span></div>
+                    <div class="config-item"><strong>MIRA 2X:</strong> <span id="sensi-2x">--</span></div>
+                    <div class="config-item"><strong>MIRA 4X:</strong> <span id="sensi-4x">--</span></div>
+                    <div class="config-item"><strong>BOTÃO DE TIRO:</strong> <span id="botao-tiro">--</span></div>
                 </div>
 
-                <div class="lock-overlay">
-                    <div style="color:white; margin-bottom:10px; font-weight:bold;">BLOQUEADO</div>
-                    <button class="btn-pix" onclick="pagar()">
-                        LIBERAR TUDO R$ 9,99
+                <div class="lock-overlay" id="lock-screen">
+                    <i class="fas fa-lock" style="font-size:2rem; color:white; margin-bottom:10px;"></i>
+                    <div style="color:white; margin-bottom:15px; font-weight:bold;">CONFIGURAÇÃO BLOQUEADA</div>
+                    <button class="btn-buy" onclick="simularPagamento()">
+                        LIBERAR POR R$ 9,99
                     </button>
+                    <p style="font-size:0.7rem; color:#ccc; margin-top:10px;">Acesso vitalício ao painel</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- SUA CHAVE DE API (Copiada da sua imagem) ---
-        const API_KEY = "AIzaSyAgV4TpfuK6uSHsTCCg7x-zxu0mCPeymKA"; 
+        // --- CONFIGURAÇÃO DA IA (Cole sua chave aqui) ---
+        const API_KEY = "COLE_SUA_CHAVE_AQUI_SE_TIVER"; 
         // -----------------------------------------------
 
-        // 1. Detectar Dispositivo ao Abrir
-        const parser = new UAParser();
-        const result = parser.getResult();
-        const vendor = result.device.vendor || "Mobile";
-        const model = result.device.model || "Android";
-        const fullName = `${vendor} ${model}`.toUpperCase();
-
-        document.getElementById('model-display').innerText = fullName;
-        document.getElementById('status-display').innerText = "✓ Hardware Compatível";
-
-        // 2. Lógica da IA e Animação
-        async function runAnalysis() {
-            const btn = document.getElementById('btn-start');
-            const loader = document.getElementById('loader');
-            const fill = document.getElementById('fill');
-            const msg = document.getElementById('loading-msg');
-
-            // Troca UI
-            btn.style.display = 'none';
-            loader.style.display = 'block';
-
-            // Barra de progresso falsa (Animação)
-            let width = 0;
-            const interval = setInterval(() => {
-                if(width < 90) { 
-                    width += Math.random() * 5; 
-                    fill.style.width = width + '%';
-                }
-                // Mensagens aleatórias de "hacking"
-                if(width > 30 && width < 35) msg.innerText = "Analisando Taxa de Atualização...";
-                if(width > 60 && width < 65) msg.innerText = "Calculando DPI x Sensibilidade...";
-            }, 100);
-
-            try {
-                // Chamada REAL para o Google Gemini
-                const prompt = `O dispositivo é um ${fullName}. Para jogar Free Fire, me dê apenas UM número ideal de DPI entre 400 e 960. Responda APENAS o número, sem texto.`;
-
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-
-                const data = await response.json();
-                const aiDpi = data.candidates[0].content.parts[0].text.trim();
-
-                // Finaliza
-                clearInterval(interval);
-                fill.style.width = '100%';
-                msg.innerText = "Configuração Gerada!";
-
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    document.getElementById('results').style.display = 'block';
-                    document.getElementById('dpi-result').innerText = aiDpi;
-                }, 800);
-
-            } catch (error) {
-                console.error(error);
-                // Fallback se der erro
-                clearInterval(interval);
-                fill.style.width = '100%';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    document.getElementById('results').style.display = 'block';
-                    document.getElementById('dpi-result').innerText = "590"; // Valor padrão
-                }, 800);
+        // 1. GERAÇÃO DE DPI BASEADA NO DISPOSITIVO (Sem ser aleatório)
+        // Essa função cria um "hash" do nome do celular para sempre dar a mesma DPI para o mesmo celular
+        function gerarDpiPorDispositivo(nomeString) {
+            let hash = 0;
+            for (let i = 0; i < nomeString.length; i++) {
+                hash = nomeString.charCodeAt(i) + ((hash << 5) - hash);
             }
+            // Garante que o número fique entre 400 e 960
+            const dpi = Math.abs(hash % (960 - 400)) + 400;
+            return dpi;
         }
 
-        // 3. Link de Pagamento
-        function pagar() {
-            // SUBSTITUA PELO SEU LINK DO CHECKOUT (KIWIFY, MERCADO PAGO, ETC)
-            const linkCheckout = "https://seulinkdepagamento.com.br"; 
-            
-            // Simulação
-            if(linkCheckout === "https://seulinkdepagamento.com.br") {
-                alert("Você precisa colocar seu link de pagamento no código!");
-            } else {
-                window.location.href = linkCheckout;
+        // 2. INICIALIZAÇÃO
+        const parser = new UAParser();
+        const result = parser.getResult();
+        const deviceName = `${result.device.vendor || "Android"} ${result.device.model || "Genérico"}`.toUpperCase();
+        
+        document.getElementById('device-name').innerText = deviceName;
+        document.getElementById('device-id').innerText = "HWID: " + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+        // Verifica se o usuário já "pagou" (Voltou do YouTube)
+        window.onload = function() {
+            const pagamentoPendente = localStorage.getItem('pagamento_pendente');
+            const jaEhVip = localStorage.getItem('status_vip');
+
+            if (jaEhVip === 'true') {
+                ativarModoVip();
+                // Se já é VIP, mostra os resultados direto (opcional)
+                document.getElementById('btn-start').innerText = "RECALCULAR SENSI";
+            } else if (pagamentoPendente === 'true') {
+                // Se voltou do link de pagamento
+                ativarModoVip();
+                localStorage.setItem('status_vip', 'true'); // Salva VIP permanente no navegador
+                localStorage.removeItem('pagamento_pendente'); // Limpa a pendência
+                alert("PAGAMENTO CONFIRMADO! Sensi VIP Liberada.");
             }
+        };
+
+        // 3. FUNÇÃO DE ANÁLISE (IA + Lógica)
+        async function iniciarAnalise() {
+            const btn = document.getElementById('btn-start');
+            const loader = document.getElementById('loader');
+            const painel = document.getElementById('painel-resultados');
+
+            btn.style.display = 'none';
+            loader.style.display = 'block';
+            painel.style.display = 'none';
+
+            // Simula tempo de processamento
+            setTimeout(() => {
+                loader.style.display = 'none';
+                painel.style.display = 'block';
+
+                // Gera DPI Baseada no Nome (Diferentes celulares = Diferentes DPIs)
+                const dpiFixa = gerarDpiPorDispositivo(deviceName);
+                document.getElementById('dpi-value').innerText = dpiFixa;
+
+                // Gera Valores para o VIP (Para quando desbloquear)
+                // Se quiser usar a IA Gemini de verdade, substitua isso aqui pela chamada fetch
+                document.getElementById('sensi-geral').innerText = (Math.random() * (99 - 90) + 90).toFixed(0) + "%";
+                document.getElementById('sensi-red').innerText = "100%";
+                document.getElementById('sensi-2x').innerText = (Math.random() * (98 - 92) + 92).toFixed(0) + "%";
+                document.getElementById('sensi-4x').innerText = (Math.random() * (98 - 90) + 90).toFixed(0) + "%";
+                document.getElementById('botao-tiro').innerText = (Math.random() * (60 - 45) + 45).toFixed(0) + "%";
+
+            }, 2500);
+        }
+
+        // 4. O PULO DO GATO (Teste do YouTube)
+        function simularPagamento() {
+            // Marca no navegador que o usuário foi pagar
+            localStorage.setItem('pagamento_pendente', 'true');
+            
+            // Redireciona para o link de teste (YouTube)
+            // QUANDO FOR PRA VALER, TROQUE ISSO PELO LINK DO MERCADO PAGO
+            window.location.href = "https://www.youtube.com/";
+        }
+
+        // 5. ATIVAÇÃO VISUAL DO VIP
+        function ativarModoVip() {
+            // Remove o cadeado e o blur
+            const vipArea = document.getElementById('vip-area');
+            const lockScreen = document.getElementById('lock-screen');
+            const userStatus = document.getElementById('user-status');
+
+            vipArea.classList.add('vip-unlocked');
+            lockScreen.style.display = 'none';
+            
+            // Muda o status no topo
+            userStatus.innerHTML = '<i class="fas fa-crown"></i> VIP PRO';
+            userStatus.classList.add('vip-active');
         }
     </script>
 </body>
